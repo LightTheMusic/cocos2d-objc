@@ -33,7 +33,7 @@
 #import "CCScheduler.h"
 #import "CCGLView.h"
 
-#import "OALSimpleAudio.h"
+//#import "OALSimpleAudio.h"
 
 #if __CC_METAL_SUPPORTED_AND_ENABLED
 #import "CCMetalView.h"
@@ -213,7 +213,7 @@ FindPOTScale(CGFloat size, CGFloat fixedSize)
 	[CCTexture setDefaultAlphaPixelFormat:CCTexturePixelFormat_RGBA8888];
     
     // Initialise OpenAL
-    [OALSimpleAudio sharedInstance];
+//    [OALSimpleAudio sharedInstance];
 	
 	// Create a Navigation Controller with the Director
 	navController_ = [[CCNavigationController alloc] initWithRootViewController:director];

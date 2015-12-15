@@ -29,7 +29,7 @@
 #import "CCBSequenceProperty.h"
 #import "CCBReader.h"
 #import "CCBKeyframe.h"
-#import "OALSimpleAudio.h"
+//#import "OALSimpleAudio.h"
 #import <objc/runtime.h>
 
 #import "CCDirector_Private.h"
@@ -463,32 +463,32 @@ static NSInteger ccbAnimationManagerID = 0;
     return [CCActionSequence actionWithArray:actions];
 }
 
-- (id)actionForSoundChannel:(CCBSequenceProperty*) channel {
-    
-    float lastKeyframeTime = 0;
-    
-    NSMutableArray* actions = [NSMutableArray array];
-    
-    for (CCBKeyframe* keyframe in channel.keyframes) {
-        
-        float timeSinceLastKeyframe = keyframe.time - lastKeyframeTime;
-        lastKeyframeTime = keyframe.time;
-        if (timeSinceLastKeyframe > 0) {
-            [actions addObject:[CCActionDelay actionWithDuration:timeSinceLastKeyframe]];
-        }
-        
-        NSString* soundFile = [keyframe.value objectAtIndex:0];
-        float pitch = [[keyframe.value objectAtIndex:1] floatValue];
-        float pan = [[keyframe.value objectAtIndex:2] floatValue];
-        float gain = [[keyframe.value objectAtIndex:3] floatValue];
-        
-        [actions addObject:[CCActionSoundEffect actionWithSoundFile:soundFile pitch:pitch pan:pan gain:gain]];
-    }
-    
-    if (!actions.count) return NULL;
-    
-    return [CCActionSequence actionWithArray:actions];
-}
+//- (id)actionForSoundChannel:(CCBSequenceProperty*) channel {
+//    
+//    float lastKeyframeTime = 0;
+//    
+//    NSMutableArray* actions = [NSMutableArray array];
+//    
+//    for (CCBKeyframe* keyframe in channel.keyframes) {
+//        
+//        float timeSinceLastKeyframe = keyframe.time - lastKeyframeTime;
+//        lastKeyframeTime = keyframe.time;
+//        if (timeSinceLastKeyframe > 0) {
+//            [actions addObject:[CCActionDelay actionWithDuration:timeSinceLastKeyframe]];
+//        }
+//        
+//        NSString* soundFile = [keyframe.value objectAtIndex:0];
+//        float pitch = [[keyframe.value objectAtIndex:1] floatValue];
+//        float pan = [[keyframe.value objectAtIndex:2] floatValue];
+//        float gain = [[keyframe.value objectAtIndex:3] floatValue];
+//        
+//        [actions addObject:[CCActionSoundEffect actionWithSoundFile:soundFile pitch:pitch pan:pan gain:gain]];
+//    }
+//    
+//    if (!actions.count) return NULL;
+//    
+//    return [CCActionSequence actionWithArray:actions];
+//}
 
 - (void)runAnimationsForSequenceId:(int)seqId tweenDuration:(float) tweenDuration {
     
@@ -576,16 +576,16 @@ static NSInteger ccbAnimationManagerID = 0;
             [_currentActions addObject:action];
         }
     }
-    
-    if (seq.soundChannel) {
-        // Build sound actions for channel
-        CCAction* action = [self actionForSoundChannel:seq.soundChannel];
-        if (action) {
-            action.tag = (int)_animationManagerId;
-            [action startWithTarget:self.rootNode];
-            [_currentActions addObject:action];
-        }
-    }
+//    
+//    if (seq.soundChannel) {
+//        // Build sound actions for channel
+//        CCAction* action = [self actionForSoundChannel:seq.soundChannel];
+//        if (action) {
+//            action.tag = (int)_animationManagerId;
+//            [action startWithTarget:self.rootNode];
+//            [_currentActions addObject:action];
+//        }
+//    }
 
 }
 

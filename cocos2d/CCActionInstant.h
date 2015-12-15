@@ -375,13 +375,13 @@
  so that you can use the playBg method of OALSimpleAudio.
  
  @note The action ends immediately, it does not wait for the sound to stop playing. */
-@interface CCActionSoundEffect : CCActionInstant
-{
-    NSString* _soundFile;
-    float _pitch;
-    float _pan;
-    float _gain;
-}
+//@interface CCActionSoundEffect : CCActionInstant
+//{
+//    NSString* _soundFile;
+//    float _pitch;
+//    float _pan;
+//    float _gain;
+//}
 
 /** @name Creating a Sound Effect Action */
 
@@ -396,7 +396,7 @@
  @see OALSimpleAudio
  @see [OALSimpleAudio playEffect:volume:pitch:pan:loop:]
  */
-+(instancetype) actionWithSoundFile:(NSString*)file pitch:(float)pitch pan:(float) pan gain:(float)gain;
+//+(instancetype) actionWithSoundFile:(NSString*)file pitch:(float)pitch pan:(float) pan gain:(float)gain;
 
 /**
  Creates a sound effect action.
@@ -409,6 +409,6 @@
  @see OALSimpleAudio
  @see [OALSimpleAudio playEffect:volume:pitch:pan:loop:]
  */
--(id) initWithSoundFile:(NSString*)file pitch:(float)pitch pan:(float) pan gain:(float)gain;
+//-(id) initWithSoundFile:(NSString*)file pitch:(float)pitch pan:(float) pan gain:(float)gain;
 
-@end
+//@end
