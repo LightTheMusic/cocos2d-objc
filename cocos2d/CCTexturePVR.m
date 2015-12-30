@@ -621,6 +621,12 @@ CCRenderDispatch(NO, ^{
 			return nil;
 		}
 		
+        // FIX: store the pixel format
+        // previously textures created from pvr
+        // would always have the default format value for 'RGBA8888'
+        _format = _pixelFormatInfo->ccPixelFormat;
+        
+        
 #if __CC_PLATFORM_IOS && defined(DEBUG)
 		GLenum pixelFormat = _pixelFormatInfo->ccPixelFormat;
 		CCConfiguration *conf = [CCConfiguration sharedConfiguration];
