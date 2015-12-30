@@ -169,7 +169,7 @@ FindPOTScale(CGFloat size, CGFloat fixedSize)
 			ccview = [CCGLView
 				viewWithFrame:bounds
 				pixelFormat:config[CCSetupPixelFormat] ?: kEAGLColorFormatRGBA8
-				depthFormat:[config[CCSetupDepthFormat] unsignedIntValue]
+				depthFormat: GL_DEPTH24_STENCIL8_OES
 				preserveBackbuffer:[config[CCSetupPreserveBackbuffer] boolValue]
 				sharegroup:nil
 				multiSampling:[config[CCSetupMultiSampling] boolValue]
