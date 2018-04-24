@@ -1,9 +1,13 @@
+#if 0
+
 #import "TestBase.h"
 #import "CCTextureCache.h"
 #import "CCNodeColor.h"
 #import "CCEffectNode.h"
 #import "CCEffectBlur.h"
 #import "CCEffectInvert.h"
+
+#import "CCClippingNode.h"
 
 #import "CCEffect_Private.h"
 #import "CCEffectStack_Private.h"
@@ -2631,3 +2635,5 @@
 }
 
 @end
+
+#endif

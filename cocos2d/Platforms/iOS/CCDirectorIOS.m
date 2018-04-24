@@ -43,7 +43,6 @@
 #import "../../ccFPSImages.h"
 #import "../../CCConfiguration.h"
 #import "CCRenderer_Private.h"
-#import "CCTouch.h"
 #import "CCRenderDispatch_Private.h"
 
 // support imports
@@ -53,8 +52,6 @@
 #if CC_ENABLE_PROFILERS
 #import "../../Support/CCProfiling.h"
 #endif
-
-#import "CCDirector_Private.h"
 
 #pragma mark -
 #pragma mark Director
@@ -150,9 +147,6 @@
 	NSAssert(_runningScene == nil, @"This command can only be used to start the CCDirector. There is already a scene present.");
 	
 	[self pushScene:scene];
-
-	NSThread *thread = [self runningThread];
-	[self performSelector:@selector(drawScene) onThread:thread withObject:nil waitUntilDone:YES];
 }
 
 -(void) reshapeProjection:(CGSize)newViewSize
@@ -191,6 +185,7 @@
 		}
 }
 
+#if !defined(__TV_OS_VERSION_MAX_ALLOWED)
 // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
@@ -200,6 +195,7 @@
 
 	return ret;
 }
+#endif
 
 // Commented. See issue #1453 for further info: http://code.google.com/p/cocos2d-iphone/issues/detail?id=1453
 //-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration

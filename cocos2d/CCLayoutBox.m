@@ -26,7 +26,6 @@
 #import "CCLayoutBox.h"
 #import "ccMacros.h"
 #import "CGPointExtension.h"
-#import "CCNode_Private.h"
 
 @implementation CCLayoutBox
 
@@ -44,7 +43,7 @@ static float roundUpToEven(float f)
         float maxHeight = 0;
         for (CCNode* child in self.children)
         {
-            float height = child.contentSizeInPoints.height;
+            float height = [child boundingBox].size.height;
             if (height > maxHeight) maxHeight = height;
         }
         
@@ -52,11 +51,11 @@ static float roundUpToEven(float f)
         float width = 0;
         for (CCNode* child in self.children)
         {
-            CGSize childSize = child.contentSizeInPoints;
+            CGSize childSize = [child boundingBox].size;
             
-            CGPoint offset = child.anchorPointInPoints;
+            CGPoint offset = child.anchorPoint;
             CGPoint localPos = ccp(roundf(width), roundf((maxHeight-childSize.height)/2.0f));
-            CGPoint position = ccpAdd(localPos, offset);
+            CGPoint position = ccpAdd(localPos, CGPointMake(offset.x * childSize.width, offset.y * childSize.height));
             
             child.position = position;
             child.positionType = CCPositionTypePoints;
@@ -78,7 +77,7 @@ static float roundUpToEven(float f)
         float maxWidth = 0;
         for (CCNode* child in self.children)
         {
-            float width = child.contentSizeInPoints.width;
+            float width = [child boundingBox].size.width;
             if (width > maxWidth) maxWidth = width;
         }
         
@@ -86,11 +85,11 @@ static float roundUpToEven(float f)
         float height = 0;
         for (CCNode* child in self.children)
         {
-            CGSize childSize = child.contentSizeInPoints;
+            CGSize childSize = [child boundingBox].size;
             
-            CGPoint offset = child.anchorPointInPoints;
+            CGPoint offset = child.anchorPoint;
             CGPoint localPos = ccp(roundf((maxWidth-childSize.width)/2.0f), roundf(height));
-            CGPoint position = ccpAdd(localPos, offset);
+            CGPoint position = ccpAdd(localPos, CGPointMake(offset.x * childSize.width, offset.y * childSize.height));
             
             child.position = position;
             child.positionType = CCPositionTypePoints;

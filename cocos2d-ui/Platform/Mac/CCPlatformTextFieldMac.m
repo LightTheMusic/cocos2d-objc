@@ -58,6 +58,11 @@
     return YES;
 }
 
+- (id)nativeTextField
+{
+    return _textField;
+}
+
 - (void)setFontSize:(float)fontSize {
     NSFont* font = _textField.font;
     _textField.font = [NSFont fontWithName:font.fontName size:fontSize];
@@ -95,6 +100,14 @@
 - (NSString*) string
 {
     return _textField.stringValue;
+}
+
+- (BOOL)hidden {
+    return _textField.hidden;
+}
+
+- (void) setHidden:(BOOL)hidden {
+    _textField.hidden = hidden;
 }
 @end
 

@@ -26,8 +26,7 @@
 #import "CCControlSubclass.h"
 #import <objc/message.h>
 #import <objc/runtime.h>
-#import "CCTouch.h"
-#import "CCTouchEvent.h"
+#import "UITouch+CC.h"
 
 #if __CC_PLATFORM_IOS
 
@@ -79,7 +78,7 @@
 
 #pragma mark Touch handling
 
-#if __CC_PLATFORM_IOS || __CC_PLATFORM_ANDROID
+#if __CC_PLATFORM_IOS
 
 - (void) touchBegan:(CCTouch *)touch withEvent:(CCTouchEvent *)event
 {

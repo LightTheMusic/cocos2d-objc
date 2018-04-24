@@ -35,16 +35,14 @@
 #import "ccUtils.h"
 #import "NSAttributedString+CCAdditions.h"
 #import "CCConfiguration.h"
-#import "CCNode_Private.h"
 #import "CCDirector.h"
-#import "CCTexture_Private.h"
 #import <Foundation/Foundation.h>
 
 #if __CC_PLATFORM_IOS
 #import "Platforms/iOS/CCDirectorIOS.h"
 #endif
 
-#if __CC_PLATFORM_IOS || __CC_PLATFORM_ANDROID
+#if __CC_PLATFORM_IOS
 #import <CoreText/CoreText.h>
 #endif
 
@@ -888,15 +886,9 @@ static __strong NSMutableDictionary* ccLabelTTF_registeredFonts;
     }
     
     // Handle font color
-    
-    CGColorSpaceRef colorspace = CGColorSpaceCreateDeviceRGB();
-    const CGFloat components[] = {_fontColor.red, _fontColor.green, _fontColor.blue, _fontColor.alpha};
-    CGColorRef color = CGColorCreate(colorspace, components);
-    CGColorSpaceRelease(colorspace);
-
+    CGColorRef color = _fontColor.CGColor;
     CGContextSetFillColorWithColor(context, color);
     CGContextSetStrokeColorWithColor(context, color);
-    CGColorRelease(color);
 
     [self drawString:string withFont:font inContext:context inRect:drawArea];
 
@@ -974,9 +966,7 @@ static __strong NSMutableDictionary* ccLabelTTF_registeredFonts;
         NSString *fontName = nil;
 
         BOOL needsCGFontFailback = NO;
-#if __CC_PLATFORM_ANDROID
-        needsCGFontFailback = YES;
-#endif
+        
         if (needsCGFontFailback) {
             CFArrayRef descriptors = CTFontManagerCreateFontDescriptorsFromURL((__bridge CFURLRef)fontURL);
             if (!descriptors || CFArrayGetCount(descriptors)<1) {

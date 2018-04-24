@@ -41,7 +41,7 @@
 
 // 0x00 HI ME LO
 // 00   03 xx xx
-#define COCOS2D_VERSION 0x00030409
+#define COCOS2D_VERSION 0x00030500
 #define COCOS2D_BUILD @"release"
 //
 // all cocos2d include files
@@ -55,39 +55,16 @@
 #import "CCActionEase.h"
 #import "CCActionInstant.h"
 #import "CCActionInterval.h"
-#import "CCActionProgressTimer.h"
 #import "CCActionTween.h"
-#import "CCClippingNode.h"
 #import "CCColor.h"
 #import "CCConfiguration.h"
 #import "CCDirector.h"
 #import "CCDrawNode.h"
-#import "CCEffect.h"
-#import "CCEffectBloom.h"
-#import "CCEffectBrightness.h"
-#import "CCEffectColorChannelOffset.h"
-#import "CCEffectContrast.h"
-#import "CCEffectBlur.h"
-#import "CCEffectGlass.h"
-#import "CCEffectDropShadow.h"
-#import "CCEffectHue.h"
-#import "CCEffectLighting.h"
-#import "CCEffectNode.h"
-#import "CCEffectPixellate.h"
-#import "CCEffectReflection.h"
-#import "CCEffectRefraction.h"
-#import "CCEffectSaturation.h"
-#import "CCEffectStack.h"
 #import "CCLabelBMFont.h"
 #import "CCLabelTTF.h"
-#import "CCLightNode.h"
-#import "CCMotionStreak.h"
 #import "CCNode+Debug.h"
 #import "CCNode.h"
 #import "CCNodeColor.h"
-#import "CCParallaxNode.h"
-#import "CCParticleExamples.h"
-#import "CCParticleSystem.h"
 #import "CCProtocols.h"
 #import "CCRenderTexture.h"
 #import "CCScene.h"
@@ -96,21 +73,10 @@
 #import "CCSpriteBatchNode.h"
 #import "CCSpriteFrame.h"
 #import "CCSpriteFrameCache.h"
-#import "CCTMXXMLParser.h"
+#import "CCTransition.h"
 #import "CCTexture.h"
 #import "CCTexturePVR.h"
-#import "CCTiledMap.h"
-#import "CCTiledMapLayer.h"
-#import "CCTiledMapObjectGroup.h"
-#import "CCTransition.h"
-
-#if CC_EFFECTS_EXPERIMENTAL
-#import "CCEffectOutline.h"
-#import "CCEffectDFOutline.h"
-#import "CCEffectDistanceField.h"
-#import "CCEffectDFInnerGlow.h"
-#import "CCEffectStereo.h"
-#endif
+#import "UITouch+CC.h"
 
 // Layouts
 #import "CCLayout.h"
@@ -118,15 +84,6 @@
 
 // Shaders
 #import "CCShader.h"
-
-// Physics
-#import "CCPhysicsBody.h"
-#import "CCPhysicsJoint.h"
-#import "CCPhysicsNode.h"
-#import "CCPhysicsShape.h"
-
-// Sound
-//#import "OALSimpleAudio.h"
 
 // Retiring
 #import "CCAnimation.h" // put this back for v3.4 because it's still in use, and would otherwise be unavailable to Swift
@@ -161,14 +118,6 @@
 #import "Platforms/Mac/CCDirectorMac.h"
 #import "Platforms/Mac/CCWindow.h"
 #import "Platforms/Mac/NSEvent+CC.h"
-
-#elif __CC_PLATFORM_ANDROID
-#import "Platforms/Android/CCActivity.h"
-#import "Platforms/Android/CCGLView.h"
-#import "Platforms/Android/CCDirectorAndroid.h"
-
-#import <android/native_window.h>
-#import <bridge/runtime.h>
 #endif
 
 //

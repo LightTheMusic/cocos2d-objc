@@ -166,6 +166,33 @@
 #define CC_SHADER_DEFAULT_FRAGMENT_PRECISION mediump
 #endif
 
+/**
+ If you disable one of this -ext you must remove corresponding files from your Xcode project 
+ or your may get errors when building project
+ */
+#ifndef CC_LIGHTING
+#define CC_LIGHTING 0
+#endif
+
+#ifndef CC_PHYSICS
+#define CC_PHYSICS 0
+#endif
+
+#ifndef CC_CCBREADER
+#define CC_CCBREADER 0
+#endif
+
+/**
+ For CCEffectLighting you need to enable both CC_EFFECTS and CC_LIGHTING
+ */
+#ifndef CC_EFFECTS
+#define CC_EFFECTS 0
+#endif
+
+#ifndef CC_OBJECT_AL
+#define CC_OBJECT_AL 0
+#endif
+
 #ifndef CC_EFFECTS_EXPERIMENTAL
 #define CC_EFFECTS_EXPERIMENTAL 0
 #endif

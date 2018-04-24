@@ -1,8 +1,9 @@
-#import "CCTexture_Private.h"
-#import "CCNode_Private.h"
-#import "CCSprite_Private.h"
 #import "CCRenderer_Private.h"
-#import "CCShader_Private.h"
+
+#if CC_EFFECTS
+#import "CCEffect.h"
+#import "CCEffectRenderer.h"
+#endif
 
 #if __CC_METAL_SUPPORTED_AND_ENABLED
 #import "CCMetalSupport_Private.h"
@@ -86,7 +87,7 @@ EnqueueTriangles(CCSprite *self, CCRenderer *renderer, const GLKMatrix4 *transfo
 -(void)draw:(CCRenderer *)renderer transform:(const GLKMatrix4 *)transform;
 {
 	if(!CCRenderCheckVisbility(transform, _vertexCenter, _vertexExtents)) return;
-	
+#if CC_EFFECTS
 	if (_effect)
 	{
 		_effectRenderer.contentSize = self.contentSizeInPoints;
@@ -104,6 +105,7 @@ EnqueueTriangles(CCSprite *self, CCRenderer *renderer, const GLKMatrix4 *transfo
 		[_effectRenderer drawSprite:self withEffect:self.effect uniforms:_shaderUniforms renderer:renderer transform:transform];
 	}
 	else
+#endif
 	{
 		EnqueueTriangles(self, renderer, transform);
 	}
@@ -389,7 +391,7 @@ CCRenderStateMetalPrepare(CCRenderStateMetal *self)
 		pipelineStateDescriptor.colorAttachments[0] = colorDescriptor;
 		
 		NSError *err = nil;
-		self->_renderPipelineState = [[context.device newRenderPipelineStateWithDescriptor:pipelineStateDescriptor error:&err] retain];
+		self->_renderPipelineState = [context.device newRenderPipelineStateWithDescriptor:pipelineStateDescriptor error:&err];
 		
 		if(err) CCLOG(@"Error creating metal render pipeline state. %@", err);
 		NSCAssert(self->_renderPipelineState, @"Could not create render pipeline state.");

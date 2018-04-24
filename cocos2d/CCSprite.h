@@ -29,6 +29,10 @@
 #import "CCNode.h"
 #import "CCProtocols.h"
 
+#if CC_EFFECTS
+@class CCEffectRenderer;
+#endif
+
 @class CCSpriteBatchNode;
 @class CCSpriteFrame;
 @class CCAnimation;
@@ -54,7 +58,23 @@ typedef struct CCSpriteTexCoordSet {
  
  The default anchorPoint in CCSprite is (0.5, 0.5).
  */
-@interface CCSprite : CCNode <CCTextureProtocol, CCShaderProtocol, CCBlendProtocol, CCEffectProtocol>
+@interface CCSprite : CCNode <CCTextureProtocol, CCShaderProtocol, CCBlendProtocol
+// A bit ugly, will refactor later
+#if CC_EFFECTS
+, CCEffectProtocol
+#endif
+> {
+@private
+    // Vertex coords, texture coords and color info.
+    CCSpriteVertexes _verts;
+    
+    // Center of extents (half width/height) of the sprite for culling purposes.
+    GLKVector2 _vertexCenter, _vertexExtents;
+#if CC_EFFECTS
+    CCEffect *_effect;
+    CCEffectRenderer *_effectRenderer;
+#endif
+}
 
 /// -----------------------------------------------------------------------
 /// @name Creating a Sprite with an Image File or Sprite Frame Name
@@ -279,6 +299,17 @@ typedef struct CCSpriteTexCoordSet {
  */
 - (CGAffineTransform)nodeToTextureTransform;
 
++ (CCSpriteTexCoordSet)textureCoordsForTexture:(CCTexture *)texture withRect:(CGRect)rect rotated:(BOOL)rotated xFlipped:(BOOL)flipX yFlipped:(BOOL)flipY;
 
+#if CC_EFFECTS
+- (void)updateShaderUniformsFromEffect;
+#endif
+@end
+
+
+@interface CCSprite(NoARC)
+
+-(void)enqueueTriangles:(CCRenderer *)renderer transform:(const GLKMatrix4 *)transform;
 
 @end
+

@@ -30,7 +30,6 @@
 #import "CCDrawNode.h"
 #import "CCShader.h"
 #import "Support/CGPointExtension.h"
-#import "CCNode_Private.h"
 #import "CCColor.h"
 #import "CCConfiguration.h"
 #import "CCMetalSupport_Private.h"
@@ -46,17 +45,10 @@ static NSString *CCDrawNodeHWTransformVertexShaderSource =
 	@"	cc_FragTexCoord1 = cc_TexCoord1;\n"
 	@"}\n";
 
-#ifdef ANDROID // Many Android devices do NOT support GL_OES_standard_derivatives correctly
-static NSString *CCDrawNodeFragmentShaderSource =
-    @"void main(){\n"
-    @"  gl_FragColor = cc_FragColor*step(0.0, 1.0 - length(cc_FragTexCoord1));\n"
-    @"}\n";
-#else
 static NSString *CCDrawNodeFragmentShaderSource =
 	@"void main(){\n"
 	@"	gl_FragColor = cc_FragColor*smoothstep(0.0, length(fwidth(cc_FragTexCoord1)), 1.0 - length(cc_FragTexCoord1));\n"
 	@"}\n";
-#endif
 
 @implementation CCDrawNode {
     GLsizei _vertexCount, _vertexCapacity;

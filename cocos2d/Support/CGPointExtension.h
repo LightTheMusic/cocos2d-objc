@@ -46,7 +46,7 @@
 
 #import "ccMacros.h"
 
-#if __CC_PLATFORM_IOS || __CC_PLATFORM_ANDROID
+#if __CC_PLATFORM_IOS
 #import <CoreGraphics/CGGeometry.h>
 #elif __CC_PLATFORM_MAC
 #import <Foundation/Foundation.h>
@@ -330,6 +330,8 @@ BOOL ccpSegmentIntersect(CGPoint A, CGPoint B, CGPoint C, CGPoint D);
  */
 CGPoint ccpIntersectPoint(CGPoint A, CGPoint B, CGPoint C, CGPoint D);
 
+    
+#if !__CC_PLATFORM_IOS
 @interface NSValue (CCValue)
 
 + (NSValue *)valueWithCGPoint:(CGPoint)point;
@@ -343,6 +345,7 @@ CGPoint ccpIntersectPoint(CGPoint A, CGPoint B, CGPoint C, CGPoint D);
 - (CGAffineTransform)CGAffineTransformValue;
 
 @end
+#endif
     
 #ifdef __cplusplus
 }

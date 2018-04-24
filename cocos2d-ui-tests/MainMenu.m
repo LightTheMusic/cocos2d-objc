@@ -28,11 +28,7 @@
 #import "../cocos2d/CCMacros.h"
 #import <objc/runtime.h>
 
-#if __CC_PLATFORM_ANDROID
-#define kCCTestMenuItemHeight 88
-#else
 #define kCCTestMenuItemHeight 44
-#endif
 
 static CGPoint scrollPosition;
 
@@ -119,7 +115,7 @@ static CGPoint scrollPosition;
 - (void)loadNext
 {
     CCScene* test = [TestBase sceneWithTestName:@"CCLabelTTFTest"];
-    CCTransition* transition = [CCTransition transitionMoveInWithDirection:CCTransitionDirectionLeft duration:0.3];
+    CCTransition* transition = [CCDefaultTransition transitionMoveInWithDirection:CCTransitionDirectionLeft duration:0.3];
     
     [[CCDirector sharedDirector] replaceScene:test withTransition:transition];
 }
@@ -132,7 +128,7 @@ static CGPoint scrollPosition;
     NSString* className = [[self testClassNames] objectAtIndex:tableView.selectedRow];
     
     CCScene* test = [TestBase sceneWithTestName:className];
-    CCTransition* transition = [CCTransition transitionMoveInWithDirection:CCTransitionDirectionLeft duration:0.3];
+    CCTransition* transition = [CCDefaultTransition transitionMoveInWithDirection:CCTransitionDirectionLeft duration:0.3];
     
     [[CCDirector sharedDirector] replaceScene:test withTransition:transition];
 }

@@ -307,7 +307,7 @@ typedef struct {
 	formatFlags = flags & PVR_TEXTURE_FLAG_TYPE_MASK;
 	BOOL flipped = flags & kPVR2TextureFlagVerticalFlip;
 	if( flipped )
-		CCLOGWARN(@"cocos2d: WARNING: Image is flipped. Regenerate it using PVRTexTool");
+		CCLOGWARN(@"cocos2d: WARNING: Image is not flipped. Regenerate it using PVRTexTool");
 
 	if( ! [configuration supportsNPOT] &&
 	   ( header->width != CCNextPOT(header->width) || header->height != CCNextPOT(header->height ) ) ) {
@@ -621,12 +621,6 @@ CCRenderDispatch(NO, ^{
 			return nil;
 		}
 		
-        // FIX: store the pixel format
-        // previously textures created from pvr
-        // would always have the default format value for 'RGBA8888'
-        _format = _pixelFormatInfo->ccPixelFormat;
-        
-        
 #if __CC_PLATFORM_IOS && defined(DEBUG)
 		GLenum pixelFormat = _pixelFormatInfo->ccPixelFormat;
 		CCConfiguration *conf = [CCConfiguration sharedConfiguration];

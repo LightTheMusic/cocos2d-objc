@@ -32,12 +32,8 @@
 #import "Support/ccUtils.h"
 #import "Support/CCFileUtils.h"
 #import "Support/CGPointExtension.h"
-
-#import "CCTexture_Private.h"
-#import "CCDirector_Private.h"
-#import "CCNode_Private.h"
 #import "CCRenderer_Private.h"
-#import "CCRenderTexture_Private.h"
+#import "CCRenderTexture.h"
 #import "CCRenderDispatch.h"
 #import "CCMetalSupport_Private.h"
 
@@ -572,5 +568,14 @@ FlipY(GLKMatrix4 projection)
     _contentSizeChanged = YES;
 }
 
+// See issue #1271
+-(void)setShader:(CCShader *)shader {
+    self.sprite.shader = shader;
+}
+
+-(CCShader *)shader
+{
+    return self.sprite.shader;
+}
 @end
 

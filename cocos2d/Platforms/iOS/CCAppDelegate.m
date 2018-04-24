@@ -29,11 +29,10 @@
 #import "CCAppDelegate.h"
 #import "CCTexture.h"
 #import "CCFileUtils.h"
-#import "CCDirector_Private.h"
+#import "CCDirector.h"
+#import "CCConfiguration.h"
 #import "CCScheduler.h"
 #import "CCGLView.h"
-
-//#import "OALSimpleAudio.h"
 
 #if __CC_METAL_SUPPORTED_AND_ENABLED
 #import "CCMetalView.h"
@@ -110,11 +109,7 @@ const CGSize FIXED_SIZE = {568, 384};
 // This is not needed on iOS6 and could be added to the application:didFinish...
 -(void) directorDidReshapeProjection:(CCDirector*)director
 {
-	if(director.runningScene == nil) {
-		// Add the first scene to the stack. The director will draw it immediately into the framebuffer. (Animation is started automatically when the view is displayed.)
-		// and add the scene to the stack. The director will run it when it automatically when the view is displayed.
-		[director runWithScene: [_appDelegate startScene]];
-	}
+    [director drawScene];
 }
 @end
 
@@ -123,16 +118,12 @@ const CGSize FIXED_SIZE = {568, 384};
 
 @synthesize window=window_, navController=navController_;
 
+#if !defined(__TV_OS_VERSION_MAX_ALLOWED)
 - (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
 {
 	return UIInterfaceOrientationMaskAll;
 }
-
-- (CCScene*) startScene
-{
-    NSAssert(NO, @"Override CCAppDelegate and implement the startScene method");
-    return NULL;
-}
+#endif
 
 static CGFloat
 FindPOTScale(CGFloat size, CGFloat fixedSize)
@@ -169,7 +160,7 @@ FindPOTScale(CGFloat size, CGFloat fixedSize)
 			ccview = [CCGLView
 				viewWithFrame:bounds
 				pixelFormat:config[CCSetupPixelFormat] ?: kEAGLColorFormatRGBA8
-				depthFormat: GL_DEPTH24_STENCIL8_OES
+				depthFormat:[config[CCSetupDepthFormat] unsignedIntValue]
 				preserveBackbuffer:[config[CCSetupPreserveBackbuffer] boolValue]
 				sharegroup:nil
 				multiSampling:[config[CCSetupMultiSampling] boolValue]
@@ -186,8 +177,6 @@ FindPOTScale(CGFloat size, CGFloat fixedSize)
 	}
 	
 	CCDirectorIOS* director = (CCDirectorIOS*) [CCDirector sharedDirector];
-	
-	director.wantsFullScreenLayout = YES;
 	
 	// Display FSP and SPF
 	[director setDisplayStats:[config[CCSetupShowDebugStats] boolValue]];
@@ -211,9 +200,6 @@ FindPOTScale(CGFloat size, CGFloat fixedSize)
 	// It can be RGBA8888, RGBA4444, RGB5_A1, RGB565
 	// You can change this setting at any time.
 	[CCTexture setDefaultAlphaPixelFormat:CCTexturePixelFormat_RGBA8888];
-    
-    // Initialise OpenAL
-//    [OALSimpleAudio sharedInstance];
 	
 	// Create a Navigation Controller with the Director
 	navController_ = [[CCNavigationController alloc] initWithRootViewController:director];
@@ -276,7 +262,7 @@ FindPOTScale(CGFloat size, CGFloat fixedSize)
 // iOS8 hack around orientation bug
 -(void)forceOrientation
 {
-#if __CC_PLATFORM_IOS && defined(__IPHONE_8_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_8_0
+#if __CC_PLATFORM_IOS && defined(__IPHONE_8_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_8_0 && !defined(__TV_OS_VERSION_MAX_ALLOWED)
     if([navController_.screenOrientation isEqual:CCScreenOrientationAll])
     {
         [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationUnknown];

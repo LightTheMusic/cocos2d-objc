@@ -24,7 +24,6 @@
 
 #import "CCRendererBasicTypes.h"
 #import "CCRenderer_Private.h"
-#import "CCTexture_Private.h"
 #import "CCCache.h"
 
 //MARK: Blend Option Keys.
@@ -54,33 +53,33 @@ NSString * const CCBlendEquationAlpha = @"CCBlendEquationAlpha";
 
 @implementation CCBlendModeCache
 
--(id)objectForKey:(id<NSCopying>)options
+-(id)objectForKey:(NSDictionary *)options
 {
 	CCBlendMode *blendMode = [self rawObjectForKey:options];
 	if(blendMode) return blendMode;
-	
+
 	// Normalize the blending mode to use for the key.
 	id src = (options[CCBlendFuncSrcColor] ?: @(GL_ONE));
 	id dst = (options[CCBlendFuncDstColor] ?: @(GL_ZERO));
 	id equation = (options[CCBlendEquationColor] ?: @(GL_FUNC_ADD));
-	
+
 	NSDictionary *normalized = @{
 		CCBlendFuncSrcColor: src,
 		CCBlendFuncDstColor: dst,
 		CCBlendEquationColor: equation,
-		
+
 		// Assume they meant non-separate blending if they didn't fill in the keys.
 		CCBlendFuncSrcAlpha: (options[CCBlendFuncSrcAlpha] ?: src),
 		CCBlendFuncDstAlpha: (options[CCBlendFuncDstAlpha] ?: dst),
 		CCBlendEquationAlpha: (options[CCBlendEquationAlpha] ?: equation),
 	};
-	
+
 	// Create the key using the normalized blending mode.
 	blendMode = [super objectForKey:normalized];
-	
+
 	// Make an alias for the unnormalized version
 	[self makeAlias:options forKey:normalized];
-	
+
 	return blendMode;
 }
 
@@ -115,7 +114,7 @@ NSString * const CCBlendEquationAlpha = @"CCBlendEquationAlpha";
 	if((self = [super init])){
 		_options = options;
 	}
-	
+
 	return self;
 }
 
@@ -139,48 +138,48 @@ NSDictionary *CCBLEND_DISABLED_OPTIONS = nil;
 {
 	// +initialize may be called due to loading a subclass.
 	if(self != [CCBlendMode class]) return;
-	
+
 	CCBLENDMODE_CACHE = [[CCBlendModeCache alloc] init];
-	
+
 	// Add the default modes
 	CCBLEND_DISABLED = [self blendModeWithOptions:@{}];
 	CCBLEND_DISABLED_OPTIONS = CCBLEND_DISABLED.options;
-	
+
 	CCBLEND_ALPHA = [self blendModeWithOptions:@{
 		CCBlendFuncSrcColor: @(GL_SRC_ALPHA),
 		CCBlendFuncDstColor: @(GL_ONE_MINUS_SRC_ALPHA),
 	}];
-	
+
 	CCBLEND_PREMULTIPLIED_ALPHA = [self blendModeWithOptions:@{
 		CCBlendFuncSrcColor: @(GL_ONE),
 		CCBlendFuncDstColor: @(GL_ONE_MINUS_SRC_ALPHA),
 	}];
-	
+
 	CCBLEND_ADD = [self blendModeWithOptions:@{
 		CCBlendFuncSrcColor: @(GL_ONE),
 		CCBlendFuncDstColor: @(GL_ONE),
 	}];
-	
+
 	CCBLEND_MULTIPLY = [self blendModeWithOptions:@{
 		CCBlendFuncSrcColor: @(GL_DST_COLOR),
 		CCBlendFuncDstColor: @(GL_ZERO),
 	}];
-    
+
     CCBLEND_ADD_WITH_ALPHA = [self blendModeWithOptions:@{
         CCBlendFuncSrcColor: @(GL_SRC_ALPHA),
         CCBlendFuncDstColor: @(GL_ZERO),
     }];
-    
+
     CCBLEND_SCREEN = [self blendModeWithOptions:@{
         CCBlendFuncSrcColor: @(GL_ONE_MINUS_DST_COLOR),
         CCBlendFuncDstColor: @(GL_ONE),
     }];
-    
+
     CCBLEND_MULTIPLICATIVE = [self blendModeWithOptions:@{
         CCBlendFuncSrcColor: @(GL_DST_COLOR),
         CCBlendFuncDstColor: @(GL_ONE_MINUS_SRC_ALPHA),
     }];
-    
+
     CCBLEND_DODGE = [self blendModeWithOptions:@{
         CCBlendFuncSrcColor: @(GL_ONE_MINUS_SRC_ALPHA),
         CCBlendFuncDstColor: @(GL_ONE),
@@ -264,7 +263,7 @@ NSDictionary *CCBLEND_DISABLED_OPTIONS = nil;
 		_shader = shader;
 		_mainTexture = mainTexture;
 	}
-	
+
 	return self;
 }
 
@@ -277,7 +276,7 @@ NSDictionary *CCBLEND_DISABLED_OPTIONS = nil;
 -(BOOL)isEqual:(id)object
 {
 	CCRenderStateCacheKey *other = object;
-	
+
 	return (
 		[other isKindOfClass:[CCRenderStateCacheKey class]] &&
 		_blendMode == other->_blendMode &&
@@ -335,7 +334,7 @@ static CCRenderState *CCRENDERSTATE_DEBUGCOLOR = nil;
 {
 	// +initialize may be called due to loading a subclass.
 	if(self != [CCRenderState class]) return;
-	
+
 	CCRENDERSTATE_CACHE = [[CCRenderStateCache alloc] init];
 	CCRENDERSTATE_DEBUGCOLOR = [[CCRenderStateClass alloc] initWithBlendMode:CCBLEND_DISABLED shader:[CCShader positionColorShader] shaderUniforms:@{}];
 }
@@ -357,15 +356,15 @@ static CCRenderState *CCRENDERSTATE_DEBUGCOLOR = nil;
 		NSAssert(blendMode, @"CCRenderState: Blending mode is nil");
 		NSAssert(shader, @"CCRenderState: Shader is nil");
 		NSAssert(shaderUniforms, @"CCRenderState: shader uniform dictionary is nil.");
-		
+
 		_blendMode = blendMode;
 		_shader = shader;
 		_shaderUniforms = (copyUniforms ? [shaderUniforms copy] : shaderUniforms);
-		
+
 		// The renderstate as a whole is immutable if the uniforms are copied.
 		_immutable = copyUniforms;
 	}
-	
+
 	return self;
 }
 
@@ -375,7 +374,7 @@ static CCRenderState *CCRENDERSTATE_DEBUGCOLOR = nil;
 		CCLOGWARN(@"nil Texture passed to CCRenderState");
 		mainTexture = [CCTexture none];
 	}
-	
+
 	return [CCRENDERSTATE_CACHE objectForKey:[[CCRenderStateCacheKey alloc] initWithBlendMode:blendMode shader:shader mainTexture:mainTexture]];
 }
 
@@ -418,7 +417,7 @@ static CCRenderState *CCRENDERSTATE_DEBUGCOLOR = nil;
 		_capacity = capacity;
 		_elementSize = elementSize;
 	}
-	
+
 	return self;
 }
 
@@ -476,13 +475,13 @@ static CCRenderState *CCRENDERSTATE_DEBUGCOLOR = nil;
 {
 	if((self = [super init])){
 		_texture = texture;
-		
+
 		_sizeInPixels = texture.contentSizeInPixels;
 		_contentScale = texture.contentScale;
-		
+
 		_depthStencilFormat = depthStencilFormat;
 	}
-	
+
 	return self;
 }
 

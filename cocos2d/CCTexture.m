@@ -84,7 +84,6 @@
 #import "Support/ccUtils.h"
 #import "Support/CCFileUtils.h"
 
-#import "CCTexture_Private.h"
 #import "CCTextureCache.h"
 #import "CCSpriteFrame.h"
 
@@ -106,12 +105,6 @@ static const MTLPixelFormat MetalPixelFormats[] = {
 	MTLPixelFormatBGRA8Unorm,
 };
 
-#endif
-
-#if __CC_PLATFORM_ANDROID
-  #ifndef GL_BGRA
-  #define GL_BGRA                                                 0x80E1
-  #endif
 #endif
 
 //CLASS IMPLEMENTATIONS:

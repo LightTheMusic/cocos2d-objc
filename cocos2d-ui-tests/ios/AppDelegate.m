@@ -40,8 +40,41 @@
 
 - (void)configureCocos2d
 {
+#if CC_CCBREADER
     // Configure the file utils to work with SpriteBuilder, but use a custom resource path (Resources-shared instead of Published-iOS)
     [CCBReader configureCCFileUtils];
+#else 
+    CCFileUtils *sharedFileUtils = [CCFileUtils sharedFileUtils];
+    
+    // Setup file utils for use with SpriteBuilder
+    [sharedFileUtils setEnableiPhoneResourcesOniPad:NO];
+    
+    sharedFileUtils.directoriesDict =
+    [[NSMutableDictionary alloc] initWithObjectsAndKeys:
+     @"resources-tablet", CCFileUtilsSuffixiPad,
+     @"resources-tablethd", CCFileUtilsSuffixiPadHD,
+     @"resources-phone", CCFileUtilsSuffixiPhone,
+     @"resources-phonehd", CCFileUtilsSuffixiPhoneHD,
+     @"resources-phone", CCFileUtilsSuffixiPhone5,
+     @"resources-phonehd", CCFileUtilsSuffixiPhone5HD,
+     @"resources-phone", CCFileUtilsSuffixMac,
+     @"resources-phonehd", CCFileUtilsSuffixMacHD,
+     @"", CCFileUtilsSuffixDefault,
+     nil];
+
+    sharedFileUtils.searchPath =
+    [NSArray arrayWithObjects:
+     [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Published-iOS"],
+     [[NSBundle mainBundle] resourcePath],
+     nil];
+    
+    sharedFileUtils.enableiPhoneResourcesOniPad = YES;
+    sharedFileUtils.searchMode = CCFileUtilsSearchModeDirectory;
+    [sharedFileUtils buildSearchResolutionsOrder];
+    
+    [sharedFileUtils loadFilenameLookupDictionaryFromFile:@"fileLookup.plist"];
+    [[CCSpriteFrameCache sharedSpriteFrameCache] loadSpriteFrameLookupDictionaryFromFile:@"spriteFrameFileList.plist"];
+#endif
 
     [self configureFileUtilsSearchPathAndRegisterSpriteSheets];
 
@@ -52,6 +85,8 @@
 			CCSetupTabletScale2X: @YES,
 			CCSetupShowDebugStats: @(getenv("SHOW_DEBUG_STATS") != nil),
 		}];
+    
+    [[CCDirector sharedDirector] runWithScene:[MainMenu scene]];
 }
 
 - (void)configureFileUtilsSearchPathAndRegisterSpriteSheets
@@ -75,16 +110,16 @@
     [[CCSpriteFrameCache sharedSpriteFrameCache] registerSpriteFramesFile:@"TilesAtlassed.plist"];
 }
 
-- (CCScene*) startScene
+/*- (CCScene*) startScene
 {
-	const char *testName = getenv("Test");
-	
-	if(testName){
-		return [TestBase sceneWithTestName:[NSString stringWithCString:testName encoding:NSUTF8StringEncoding]];
-	} else {
-		return [MainMenu scene];
-	}
-}
+    const char *testName = getenv("Test");
+    
+    if(testName){
+        return [TestBase sceneWithTestName:[NSString stringWithCString:testName encoding:NSUTF8StringEncoding]];
+    } else {
+        return [MainMenu scene];
+    }
+}*/
 
 //// I'm going to leave this in for testing the fixed size screen mode in the future.
 //- (CCScene*) startScene

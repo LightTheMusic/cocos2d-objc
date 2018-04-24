@@ -30,9 +30,9 @@
 #import "CCScene.h"
 #import "Support/CGPointExtension.h"
 #import "CCDirector.h"
-#import "CCDirector_Private.h"
+#if CC_LIGHTING
 #import "CCLightCollection.h"
-
+#endif
 // -----------------------------------------------------------------
 
 @implementation CCScene {
@@ -51,8 +51,9 @@
 		[self setContentSize:s];
 		
 		self.colorRGBA = [CCColor blackColor];
-        
+#if CC_LIGHTING
         _lights = [[CCLightCollection alloc] init];
+#endif
 	}
 	
 	return( self );

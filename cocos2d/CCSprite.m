@@ -37,10 +37,12 @@
 #import "CCDirector.h"
 #import "Support/CGPointExtension.h"
 #import "Support/CCProfiling.h"
-#import "CCNode_Private.h"
 #import "CCRenderer_Private.h"
-#import "CCSprite_Private.h"
-#import "CCTexture_Private.h"
+
+#if CC_EFFECTS
+#import "CCEffect.h"
+#import "CCEffectRenderer.h"
+#endif
 
 #pragma mark -
 #pragma mark CCSprite
@@ -427,28 +429,6 @@
     [self updateColor];
 }
 
--(CCEffect *)effect
-{
-	return _effect;
-}
-
--(void)setEffect:(CCEffect *)effect
-{
-    if(effect != _effect){
-        _effect = effect;
-        
-        if(effect){
-            if(_effectRenderer == nil){
-                _effectRenderer = [[CCEffectRenderer alloc] init];
-            }
-            
-            [self updateShaderUniformsFromEffect];
-        } else {
-            _shaderUniforms = nil;
-        }
-    }
-}
-
 //
 // Frames
 //
@@ -509,6 +489,29 @@
 //}
 
 #pragma mark CCSprite - Effects
+#if CC_EFFECTS
+
+-(CCEffect *)effect
+{
+    return _effect;
+}
+
+-(void)setEffect:(CCEffect *)effect
+{
+    if(effect != _effect){
+        _effect = effect;
+        
+        if(effect){
+            if(_effectRenderer == nil){
+                _effectRenderer = [[CCEffectRenderer alloc] init];
+            }
+            
+            [self updateShaderUniformsFromEffect];
+        } else {
+            _shaderUniforms = nil;
+        }
+    }
+}
 
 - (void)updateShaderUniformsFromEffect
 {
@@ -521,5 +524,5 @@
     // And then copy the new effect's uniforms into the node's uniforms dictionary.
     [_shaderUniforms addEntriesFromDictionary:_effect.effectImpl.shaderUniforms];
 }
-
+#endif
 @end

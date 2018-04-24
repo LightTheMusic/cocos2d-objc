@@ -25,13 +25,10 @@
 //	NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 //	ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-
-#import "CCShader_private.h"
 #import "ccMacros.h"
 #import "Support/CCFileUtils.h"
 #import "Support/uthash.h"
 #import "CCRenderer_Private.h"
-#import "CCTexture_private.h"
 #import "CCDirector.h"
 #import "CCCache.h"
 #import "CCGL.h"
@@ -550,6 +547,9 @@ MetalUniformSettersForFunctions(id<MTLFunction> vertexFunction, id<MTLFunction> 
 	MTLRenderPipelineDescriptor *descriptor = [MTLRenderPipelineDescriptor new];
 	descriptor.vertexFunction = vertexFunction;
 	descriptor.fragmentFunction = fragmentFunction;
+    MTLRenderPipelineColorAttachmentDescriptor *colorDescriptor = [MTLRenderPipelineColorAttachmentDescriptor new];
+    colorDescriptor.pixelFormat = MTLPixelFormatBGRA8Unorm;
+    descriptor.colorAttachments[0] = colorDescriptor;
 	
 	NSError *error = nil;
 	MTLRenderPipelineReflection *reflection = nil;
