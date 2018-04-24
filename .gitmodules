@@ -3,7 +3,7 @@
 url=https://github.com/slembcke/Chipmunk2D.git
 [submodule "external/ObjectAL"]
 	path = external/ObjectAL
-	url = https://github.com/spritebuilder/ObjectAL-for-Cocos2D.git
+url=http://github.com/kstenerud/ObjectAL-for-iPhone.git
 	branch = apportable
 [submodule "external/SSZipArchive"]
 	path = external/SSZipArchive
