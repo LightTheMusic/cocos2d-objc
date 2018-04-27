@@ -561,6 +561,20 @@
 			remoteGlobalIDString = CB0C06D01C17640200297E1C;
 			remoteInfo = ObjectAL_TVOS;
 		};
+		FCD3742220925A93003CDCD7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FC7E706D208F8A000006552D /* ObjectAL.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = CBBAB311171D0B84009B955F;
+			remoteInfo = "ObjectAL (iOS)";
+		};
+		FCD3742420925A93003CDCD7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FCE15A36208E7F3C00BD76A2 /* SSZipArchive.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 83409DCD19D5B65B004B7EB9;
+			remoteInfo = SSZipArchive;
+		};
 		FCE15A3D208E7F3C00BD76A2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = FCE15A36208E7F3C00BD76A2 /* SSZipArchive.xcodeproj */;
@@ -1680,6 +1694,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				FCD3742320925A93003CDCD7 /* PBXTargetDependency */,
+				FCD3742520925A93003CDCD7 /* PBXTargetDependency */,
 			);
 			name = "cocos2d-ios";
 			productName = cocos2d;
@@ -2110,6 +2126,16 @@
 			isa = PBXTargetDependency;
 			target = 7A4037A719E37038007B6E8F /* cocos2d-mac */;
 			targetProxy = B7E7DE4D1A76DB8B004234B7 /* PBXContainerItemProxy */;
+		};
+		FCD3742320925A93003CDCD7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "ObjectAL (iOS)";
+			targetProxy = FCD3742220925A93003CDCD7 /* PBXContainerItemProxy */;
+		};
+		FCD3742520925A93003CDCD7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SSZipArchive;
+			targetProxy = FCD3742420925A93003CDCD7 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
