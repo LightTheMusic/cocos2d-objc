@@ -119,10 +119,10 @@ const CGSize FIXED_SIZE = {568, 384};
 @synthesize window=window_, navController=navController_;
 
 #if !defined(__TV_OS_VERSION_MAX_ALLOWED)
-- (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
-{
-	return UIInterfaceOrientationMaskAll;
-}
+//- (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
+//{
+//	return UIInterfaceOrientationMaskAll;
+//}
 #endif
 
 static CGFloat
